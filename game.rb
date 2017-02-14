@@ -1,12 +1,14 @@
 require_relative "board"
 require_relative "player"
+require_relative "ai"
 
 class PlayGame
-	attr_reader :board, :players, :current_player
+	attr_reader :board, :player1, :player2, :current_player
 
 	def initialize(args)
 		@board          = args.fetch(:board)
-		@players        = human_players
+		@player1        = args.fetch(:player1)
+		@player2        = args.fetch(:player2)
 		@current_player = nil
 		game_flow
 	end
@@ -15,20 +17,32 @@ class PlayGame
 		puts "Hello and welcome to Tic Tac Toe!"
 	end
 
-	def get_username(num)
-		print "Player #{num} please enter your name: "
-		name = gets.chomp
+	def players
+		[player1, player2]
 	end
 
 	def game_pieces
 		["X", "O"]
 	end
 
-	def human_players
-		2.times.map do |x|
-			Player.new(name: get_username(x + 1), game_piece: game_pieces[x])
+	def computer_move
+		array = board.board_results
+		win   = player2.go_for_win(array)
+		block = player2.block_win(array)
+		link  = player2.link_two(array)
+
+		case 
+		when win
+			return win + 1
+		when block
+			return block + 1
+		when link
+			return link + 1
+		else
+			board.random + 1
 		end
 	end
+
 
 	def get_user_move(player)
 		puts "#{player} please select the key you want to place your game piece on"
@@ -36,10 +50,12 @@ class PlayGame
 	end
 
 	def congrats_winner
+		puts board.full_display
 		puts "Congrats to #{current_player}! You have won the game!"
 	end
 
 	def game_draw
+		puts board.full_display
 		puts "I'm sorry, the game has ended in a draw"
 	end
 
@@ -55,7 +71,8 @@ class PlayGame
 				players.each do |player|
 					@current_player = player.name
 					board.full_display
-					board.place_gamepiece(get_user_move(player.name), player.game_piece)
+					move = player.name == "Computer" ? computer_move : get_user_move(player.name)
+					board.place_gamepiece(move, player.game_piece)
 					throw :winner! if board.game_over?
 				end
 			end
@@ -63,4 +80,12 @@ class PlayGame
 		end_of_game
 	end
 end
+
+
+
+
+
+
+
+
 

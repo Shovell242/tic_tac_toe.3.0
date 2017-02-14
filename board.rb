@@ -28,11 +28,27 @@ class Board
 		end
 	end
 
+	def analyze_board(array)
+		hsh = {}
+		array.each do |i|
+			hsh[i] = GAME_BOARD[i]
+		end
+		hsh
+	end
+
+	def board_results
+		WINNING_COMBOS.map { |x| analyze_board(x) }
+	end
+
 	def winner?
 		WINNING_COMBOS.each do |combos|
 			return true if win_test(combos)
 		end
 		false
+	end
+
+	def random
+		GAME_BOARD.index(" ")
 	end
 
 	def draw?
