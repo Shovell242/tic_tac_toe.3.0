@@ -29,8 +29,8 @@ def game(choice)
 	elsif choice == 2
 		print "Player 1 please enter your name: "
 		player1 = gets.chomp
-		PlayGame.new(board: Board.new, player1: Player.new(name: player1, game_piece: "X"),
-								 player2: Computer.new(name: "Computer", game_piece: "O"))
+		PlayGame.new(board: Board.new, player1: Player.new(name: player1, game_piece: "X"), 
+			           player2: Computer.new(name: "Computer", game_piece: "O"))
 	end
 end
 

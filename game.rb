@@ -76,7 +76,7 @@ class PlayGame
 				players.each do |player|
 					@current_player = player.name
 					board.full_display
-					move = player.name == "Computer" ? computer_move : get_user_move(player.name)
+					move = player.is_a?(Computer) ? computer_move : get_user_move(player.name)
 					board.place_gamepiece(move, player.game_piece)
 					throw :winner! if board.game_over?
 				end
