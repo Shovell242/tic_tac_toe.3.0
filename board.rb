@@ -28,6 +28,10 @@ class Board
 		end
 	end
 
+	def valid_move?(key)
+		GAME_BOARD[key - 1] == " "
+	end
+
 	def analyze_board(array)
 		hsh = {}
 		array.each do |i|
@@ -48,7 +52,7 @@ class Board
 	end
 
 	def random
-		GAME_BOARD.index(" ")
+		GAME_BOARD.each_index.select { |i| GAME_BOARD[i] == " "}.shuffle.first
 	end
 
 	def draw?

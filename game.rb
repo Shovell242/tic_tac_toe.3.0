@@ -43,10 +43,15 @@ class PlayGame
 		end
 	end
 
-
 	def get_user_move(player)
 		puts "#{player} please select the key you want to place your game piece on"
 		key = gets.chomp.to_i
+		board.valid_move?(key) ? key : incorrect_move(player)
+	end
+
+	def incorrect_move(player)
+		puts "That spot is occupied, please choose another key"
+		get_user_move(player)
 	end
 
 	def congrats_winner
